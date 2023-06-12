@@ -15,16 +15,6 @@ import { TypedocKind } from './lib/schemas/TypedocJson';
 const typedocApp = new TypeDoc.Application();
 typedocApp.options.addReader(new TypeDoc.TSConfigReader());
 typedocApp.options.addReader(new TypeDoc.TypeDocReader());
-typedocApp.bootstrap({
-  mode: 'file',
-  logger: 'none',
-  target: ts.ScriptTarget.ES5,
-  module: ts.ModuleKind.CommonJS,
-  types : [],
-  experimentalDecorators: true,
-  ignoreCompilerErrors: true,
-  excludeExternals: true
-});
 
 program
   .description("Generate d.ts for clasp projects. File [.clasp.json] required")
@@ -41,6 +31,12 @@ let outDir: string = `${rootDir}/${program.out}`;
 let gsRun: boolean = program.client;
 let filename = 'index.d.ts';
 
+typedocApp.bootstrap({
+  logLevel: "None",
+  excludeExternals: true,
+  entryPoints: [srcDir],
+  entryPointStrategy: "expand"
+});
 
 //Load .clasp.json
 const claspJsonPath = `${rootDir}/.clasp.json`;
@@ -62,8 +58,7 @@ try {
   process.exit(1);
 }
 
-const files = typedocApp.expandInputFiles([srcDir]);
-const project = typedocApp.convert(files);
+const project = typedocApp.convert();
 
 if (project) {
   const apiModelFilePath = `${outDir}/.clasp-types-temp-api-model__.json`;

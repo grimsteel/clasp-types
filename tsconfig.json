@@ -1,13 +1,14 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2022",
     "module": "commonjs",
     "lib": [
       "es2015",
       "es5",
       "es6",
-      "es2017"
+      "es2017",
+      "DOM"
     ],
     "rootDir": "src",
     "strict": true,
