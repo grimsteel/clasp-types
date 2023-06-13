@@ -17,7 +17,7 @@
 
 # clasp-types
 
-[![npm](https://img.shields.io/npm/v/clasp-types)](https://www.npmjs.com/package/clasp-types)
+[![npm](https://img.shields.io/npm/v/@grimsteel/clasp-types)](https://www.npmjs.com/package/@grimsteel/clasp-types)
 
 A [TypeScript] definitions generator for [clasp] projects to get **autocomplete** and **type checking** for your Google Apps Script Object Oriented [Libraries] and [Client-side API].
 
@@ -65,6 +65,8 @@ Optional params:
 --out          <folder>    # default: ./dist    - Output folder              
 --client                   # default: false     - Generate client side API types  
 --root         <folder>    # default: ./        - Project root folder  
+--namespace    <string>    # default: ''        - Library namespace
+--name         <string>    # default: ''        - Library name
 ```
 
 ## Library setup

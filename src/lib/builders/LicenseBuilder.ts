@@ -1,6 +1,5 @@
 import { PackageJson } from "../schemas/PackageJson";
 import { Builder } from "./Builder";
-import { ClaspJson } from "../schemas/ClaspJson";
 
 export class LicenseBuilder extends Builder {
 

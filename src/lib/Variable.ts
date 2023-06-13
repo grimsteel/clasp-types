@@ -1,21 +1,19 @@
+import { DeclarationReflection } from "typedoc";
 import { Definition } from "./Definition";
 import { Builder } from "./builders/Builder";
-import { TypedocKind } from "./schemas/TypedocJson";
 
-export class Variable extends Definition {
+export class Variable extends Definition<DeclarationReflection> {
 
-  constructor(kind: TypedocKind, depth: number) {
+  constructor(kind: DeclarationReflection, depth: number) {
     super(kind, depth);
   }
 
   render(builder: Builder): void {
     this.addComment(builder, this.kind.comment);
     builder.append(`${this.ident()}`)
-    if (this.kind.flags.isExported) {
-      builder.append('export ')
-    }
+    builder.append('export ')
     if (this.kind.type) {
-      builder.append(`var ${this.kind.name}: `);
+      builder.append(`let ${this.kind.name}: `);
       this.buildType(builder, this.kind.type)
       builder.append(`;`).doubleLine();
     }

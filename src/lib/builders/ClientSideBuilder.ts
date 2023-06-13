@@ -1,14 +1,14 @@
 import { Builder } from "./Builder";
-import { TypedocKind } from "../schemas/TypedocJson";
 import { Namespace } from "../Namespace";
 import * as fs from "fs-extra";
 import * as path from "path";
+import { DeclarationReflection, IntrinsicType, ProjectReflection, ReflectionFlag, ReflectionKind } from "typedoc";
 
 export class ClientSideBuilder extends Builder {
 
-  rootKind: TypedocKind;
+  rootKind: ProjectReflection;
 
-  constructor(kind: TypedocKind) {
+  constructor(kind: ProjectReflection) {
     super();
     this.rootKind = kind;
   }
@@ -22,70 +22,40 @@ export class ClientSideBuilder extends Builder {
   /**
    * Prepare TypedocKind with functions
    */
-  private prepare(kind: TypedocKind): TypedocKind {
+  private prepare(kind: ProjectReflection): ProjectReflection {
 
-    kind.kindString = 'Module'
-    kind.flags.isPublic = true;
+    kind.kind = ReflectionKind.Module;
     kind.name = 'script';
+    kind.setFlag(ReflectionFlag.Public, true);
 
-    let children = kind.children.filter(kind => kind.flags.isPublic).filter(kind => kind.kindString === 'Function').map(f => {
-      return {
-        ...f,
-        signatures: [
-          {
-            ...f.signatures[0],
-            comment: undefined,
-            type: {
-              type: "intrinsic",
-              name: `void${f.signatures[0].type.name ? ` //${f.signatures[0].type.name}` : ''}`
-            }
-          }
-        ],
-      }
-    });
+    let children = kind.children?.filter(kind => kind.flags.isPublic).filter(kind => kind.kind === ReflectionKind.Function).map(f => {
+      f.signatures = f.signatures?.map(s => {
+        s.comment = undefined;
+        s.type = new IntrinsicType(`void${f.signatures?.[0]?.type?.type ? ` //${f.signatures[0].type.type}` : ''}`);
+        return s;
+      });
+      return f;
+    }) || [];
 
     children.unshift(JSON.parse(fs.readFileSync(path.join(__dirname, 'withUserObject.json')).toString()));
     children.unshift(JSON.parse(fs.readFileSync(path.join(__dirname, 'withFailureHandler.json')).toString()));
     children.unshift(JSON.parse(fs.readFileSync(path.join(__dirname, 'withSuccessHandler.json')).toString()));
 
 
+    let runner = new DeclarationReflection("Runner", ReflectionKind.Class);
+    runner.children = children;
+    runner.setFlag(ReflectionFlag.Public, true);
 
-    let runner: TypedocKind = {
-      name: 'Runner',
-      kindString: 'Class',
-      children: children,
-      flags: {
-        isPublic: true
-      },
-      signatures: []
-    }
+    let run = new DeclarationReflection("run", ReflectionKind.Variable);
 
-    let run = {
-      "name": "run",
-      "kindString": "Variable",
-      "flags": {
-        "isExported": true
-      },
-      "type": {
-        "type": "reference",
-        "name": "Runner"
-      },
-      children: [],
-      signatures: []
-    }
+    kind.children?.unshift(runner);
+    kind.children?.push(run);
 
-    kind.children.unshift(runner);
-    kind.children.push(run);
-    
-    return {
-      name: 'google',
-      kindString: "Module",
-      children: [kind],
-      flags: {
-        isPublic: true
-      },
-      signatures: []
-    }
+    let google = new ProjectReflection("google");
+    google.kind = ReflectionKind.Module;
+    google.children = [kind as unknown as DeclarationReflection];
+    google.setFlag(ReflectionFlag.Public, true);
+    return google;
   }
 
 }

@@ -1,23 +1,22 @@
 import { PackageJson } from "../schemas/PackageJson";
 import { Builder } from "./Builder";
-import { ClaspJson } from "../schemas/ClaspJson";
 
 export class ReadmeBuilder extends Builder {
 
   packageJson: PackageJson;
-  claspJson: ClaspJson;
+  libraryName: string;
 
-  constructor(packageJson: PackageJson, claspJson: ClaspJson) {
+  constructor(packageJson: PackageJson, libraryName: string) {
     super()
     this.packageJson = packageJson;
-    this.claspJson = claspJson;
+    this.libraryName = libraryName;
   }
 
   public build(): Builder {
     let org = this.extractOrg();
     this
     .append("# Summary").doubleLine()
-    .append(`This package contains Typescript definitions for [${this.claspJson.library.name}](${this.extractHomepage()})`).doubleLine()
+    .append(`This package contains Typescript definitions for [${this.libraryName}](${this.extractHomepage()})`).doubleLine()
     .append("# Instalation").doubleLine()
     .append('### 1) Add the package:').doubleLine()
     .append('```').line()
