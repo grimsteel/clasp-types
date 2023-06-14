@@ -1,14 +1,14 @@
 {
-  "name": "@grimsteel/clasp-types",
+  "name": "clasp-types",
   "version": "1.4.0",
   "description": "A d.ts generator for clasp projects",
-  "homepage": "https://github.com/grimsteel/clasp-types#readme",
+  "homepage": "https://github.com/bkper/clasp-types#readme",
   "main": "./dist/index.js",
   "bin": "./dist/index.js",
   "author": "Mael Caldas (https://github.com/maelcaldas)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grimsteel/clasp-types.git"
+    "url": "https://github.com/bkper/clasp-types.git"
   },
   "license": "MIT",
   "scripts": {

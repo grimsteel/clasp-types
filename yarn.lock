@@ -21,9 +21,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grimsteel/clasp-types@workspace:.":
+"clasp-types@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@grimsteel/clasp-types@workspace:."
+  resolution: "clasp-types@workspace:."
   dependencies:
     "@types/fs-extra": ^11.0.1
     "@types/node": ^20.3.0
