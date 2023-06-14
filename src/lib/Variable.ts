@@ -11,9 +11,8 @@ export class Variable extends Definition<DeclarationReflection> {
   render(builder: Builder): void {
     this.addComment(builder, this.kind.comment);
     builder.append(`${this.ident()}`)
-    builder.append('export ')
     if (this.kind.type) {
-      builder.append(`let ${this.kind.name}: `);
+      builder.append(`${this.kind.name}: `);
       this.buildType(builder, this.kind.type)
       builder.append(`;`).doubleLine();
     }

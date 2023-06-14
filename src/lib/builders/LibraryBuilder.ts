@@ -42,12 +42,12 @@ export class LibraryBuilder extends Builder {
     kind.kind = ReflectionKind.Module;
     kind.name = this.namespace;
     kind.children = kind.children || [];
-    let functions = kind.children?.filter(kind => kind.flags.isPublic).filter(kind => kind.kind === ReflectionKind.Function) ?? [];
+    let functionsAndVariables = kind.children?.filter(kind => kind.flags.isPublic).filter(kind => kind.kind === ReflectionKind.Function || kind.kind === ReflectionKind.Variable) ?? [];
     let flags = new ReflectionFlags();
     flags.setFlag(ReflectionFlag.Public, true);
     let library= new DeclarationReflection(this.libraryName, ReflectionKind.Class);
     library.comment = new Comment([{ kind: "text", text: `The main entry point to interact with ${this.libraryName}` }]);
-    library.children = functions;
+    library.children = functionsAndVariables;
     library.flags = flags;
 
     let enums = kind.children?.filter(kind => kind.flags.isPublic).filter(kind => kind.kind === ReflectionKind.Enum) ?? [];
