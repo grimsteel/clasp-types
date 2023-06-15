@@ -106,8 +106,8 @@ function generateLibraryTypes(rootTypedoKind: TypeDoc.ProjectReflection) {
  */
 function getGSRunTypes(rootTypedoKind: TypeDoc.ProjectReflection) {
   let builder = new ClientSideBuilder(rootTypedoKind);
-  const filepath = `${outDir}/@types/google.script.types/${filename}`;
+  const filepath = `${outDir}/${packageJson.name}-types/${filename}`;
   fs.outputFileSync(filepath, builder.build().getText());
-  console.log(`Generated google.script.types definitions at ${outDir}/@types/`);
+  console.log(`Generated google.script.types definitions at ${outDir}`);
 }
 
