@@ -3,3 +3,4 @@ src/*
 .history/*
 .DS_Store
 imgs/
+.yarn/

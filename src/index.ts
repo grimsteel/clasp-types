@@ -45,6 +45,7 @@ try {
   await typedocApp.bootstrapWithPlugins({
     entryPoints: [srcFile],
     plugin: ["@zamiell/typedoc-plugin-not-exported"],
+    skipErrorChecking: true,
     // @ts-ignore
     includeTag: "public"
   });
