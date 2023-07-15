@@ -10,7 +10,10 @@ export class EnumProperty extends Definition {
 
   render(builder: Builder): void {
     this.addComment(builder, this.kind.comment);
-    builder.append(`${this.ident()}${this.kind.name} = ${this.kind.anchor},`).doubleLine()
+    if (this.kind.anchor)
+      builder.append(`${this.ident()}${this.kind.name} = ${this.kind.anchor},`).doubleLine()
+    else
+      builder.append(`${this.ident()}${this.kind.name},`).doubleLine()
   }
   
 }

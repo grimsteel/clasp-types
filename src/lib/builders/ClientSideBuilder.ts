@@ -58,7 +58,10 @@ export class ClientSideBuilder extends Builder {
     const wfhParam1RefCallSig = new SignatureReflection("__call", ReflectionKind.CallSignature, wfhParam1Ref);
     const wfhParam1RefCallSigParam1 = new ParameterReflection("error", ReflectionKind.Parameter, wfhParam1RefCallSig);
     wfhParam1RefCallSigParam1.type = ReferenceType.createResolvedReference("Error", wfhParam1RefCallSigParam1, kind);
-    wfhParam1RefCallSig.parameters = [wfhParam1RefCallSigParam1];
+    const wfhParam1RefCallSigParam2 = new ParameterReflection("userObject", ReflectionKind.Parameter, wfhParam1RefCallSig);
+    wfhParam1RefCallSigParam2.type = new IntrinsicType("any");
+    wfhParam1RefCallSigParam2.setFlag(ReflectionFlag.Optional, true);
+    wfhParam1RefCallSig.parameters = [wfhParam1RefCallSigParam1, wfhParam1RefCallSigParam2];
     wfhParam1RefCallSig.type = new IntrinsicType("void");
     wfhParam1Ref.signatures = [wfhParam1RefCallSig];
     wfhParam1.type = new ReflectionType(wfhParam1Ref);
@@ -74,8 +77,11 @@ export class ClientSideBuilder extends Builder {
     const wshParam1RefCallSig = new SignatureReflection("__call", ReflectionKind.CallSignature, wshParam1Ref);
     const wshParam1RefCallSigParam1 = new ParameterReflection("response", ReflectionKind.Parameter, wshParam1RefCallSig);
     wshParam1RefCallSigParam1.type = new IntrinsicType("any"); // callback param 1 type
+    const wshParam1RefCallSigParam2 = new ParameterReflection("userObject", ReflectionKind.Parameter, wshParam1RefCallSig);
+    wshParam1RefCallSigParam2.type = new IntrinsicType("any"); // callback param 2 type
+    wshParam1RefCallSigParam2.setFlag(ReflectionFlag.Optional, true);
     wshParam1RefCallSig.type = new IntrinsicType("void"); // callback return type
-    wshParam1RefCallSig.parameters = [wshParam1RefCallSigParam1];
+    wshParam1RefCallSig.parameters = [wshParam1RefCallSigParam1, wshParam1RefCallSigParam2];
     wshParam1Ref.signatures = [wshParam1RefCallSig];
     wshParam1.type = new ReflectionType(wshParam1Ref); // callback type
     wshCallSig.parameters = [wshParam1];
