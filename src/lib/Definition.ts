@@ -100,6 +100,8 @@ export abstract class Definition<T=ContainerReflection> {
         builder.append(type.qualifiedName);
       } else if ("name" in type && type.name !== undefined) {
         builder.append(type.name);
+      } else if ("queryType" in type) {
+        builder.append(`typeof ${type.queryType.name}`);
       } else if ("value" in type && type.value !== undefined) {
         builder.append(JSON.stringify(type.value));
       }

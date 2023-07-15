@@ -1,7 +1,7 @@
 import { Namespace } from "../Namespace";
 import { Builder } from "./Builder";
 import { PackageJson } from "../schemas/PackageJson";
-import { Comment,  DeclarationReflection,  ProjectReflection,  ReferenceType,  ReflectionFlag,  ReflectionFlags,  ReflectionKind } from "typedoc";
+import { Comment,  DeclarationReflection,  ProjectReflection,  QueryType,  ReferenceType,  ReflectionFlag,  ReflectionFlags,  ReflectionKind } from "typedoc";
 
 export class LibraryBuilder extends Builder {
 
@@ -56,7 +56,7 @@ export class LibraryBuilder extends Builder {
       let property = new DeclarationReflection(e.name, ReflectionKind.Property);
       property.setFlag(ReflectionFlag.Public, true);
       property.setFlag(ReflectionFlag.Static, true);
-      property.type = ReferenceType.createResolvedReference(e.name, property, kind);
+      property.type = new QueryType(ReferenceType.createResolvedReference(e.name, property, kind));
       library.children!.unshift(property)
     });
 
